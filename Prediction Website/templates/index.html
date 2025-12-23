@@ -10,7 +10,7 @@
 
 <body>
     <div class="container">
-        <h2>🏠 California House Price Predictor (US Census 1990)</h2>
+        <h2>California House Price Predictor<br>(US Census 1990)</h2>
 
         <form method="post">
 
@@ -27,7 +27,7 @@
             <!-- Total Rooms -->
             <label>Total Rooms</label>
             <select name="rooms" id="rooms" required onchange="updateBedrooms()">
-                {% for i in range(1, 21) %}
+                {% for i in range(1, 11) %}
                 <option value="{{ i }}" {% if i==2 %}selected{% endif %}>
                     {{ i }}
                 </option>
@@ -44,7 +44,7 @@
             <!-- Family Members -->
             <label>Family Members</label>
             <select name="family" required>
-                {% for i in range(1, 11) %}
+                {% for i in range(1, 10) %}
                 <option value="{{ i }}">{{ i }}</option>
                 {% endfor %}
             </select>
@@ -86,15 +86,15 @@
             <p>{{ prediction }}</p>
         </div>
         {% endif %}
+        <footer class="footer">
+            <p>
+                &copy; 2025 Pranav Choubey ·
+                <a href="https://www.linkedin.com/in/pranavchoubey89/" target="_blank">
+                    LinkedIn
+                </a>
+            </p>
+        </footer>
     </div>
-    <footer class="footer">
-        <p>
-            © 2025 Pranav Choubey ·
-            <a href="https://www.linkedin.com/in/pranavchoubey89/" target="_blank">
-                LinkedIn
-            </a>
-        </p>
-    </footer>
 
     <!-- ✅ WORKING JavaScript -->
     <script>
