@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>California House Price Predictor</title>
+    <link rel="stylesheet" href="\static\style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>🏠 California House Price Predictor (US Census 1990)</h2>
+
+        <form method="post">
+
+            <!-- Yearly Income -->
+            <label>Yearly Income ($)</label>
+            <select name="income" required>
+                {% for income in range(10000, 300001, 10000) %}
+                <option value="{{ income }}">
+                    ${{ "{:,}".format(income) }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <!-- Total Rooms -->
+            <label>Total Rooms</label>
+            <select name="rooms" id="rooms" required onchange="updateBedrooms()">
+                {% for i in range(1, 21) %}
+                <option value="{{ i }}" {% if i==2 %}selected{% endif %}>
+                    {{ i }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <!-- Bedrooms -->
+            <label>Bedrooms</label>
+            <select name="bedrooms" id="bedrooms" required>
+                <!-- ✅ Default option so it is NEVER blank -->
+                <option value="1" selected>1</option>
+            </select>
+
+            <!-- Family Members -->
+            <label>Family Members</label>
+            <select name="family" required>
+                {% for i in range(1, 11) %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- House Age -->
+            <label>House Age (years)</label>
+            <select name="age" required>
+                {% for i in range(0, 101, 5) %}
+                <option value="{{ i }}">
+                    {{ "New" if i == 0 else i ~ " years" }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <!-- Nearby Population -->
+            <label>Nearby Population</label>
+            <select name="population" required>
+                {% for p in range(500, 10001, 500) %}
+                <option value="{{ p }}">
+                    {{ "{:,}".format(p) }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <!-- City -->
+            <label>City</label>
+            <select name="city" required>
+                {% for city in ["Los Angeles", "San Francisco", "San Diego", "San Jose"] %}
+                <option value="{{ city }}">{{ city }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Predict Price</button>
+        </form>
+
+        {% if prediction %}
+        <div class="result">
+            <h3>Estimated House Price</h3>
+            <p>{{ prediction }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- ✅ WORKING JavaScript -->
+    <script>
+        function updateBedrooms() {
+            const rooms = parseInt(document.getElementById("rooms").value);
+            const bedroomsSelect = document.getElementById("bedrooms");
+
+            // Clear existing options
+            bedroomsSelect.innerHTML = "";
+
+            // Always ensure at least 1 bedroom
+            const maxBedrooms = Math.max(1, rooms - 1);
+
+            for (let i = 1; i <= maxBedrooms; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.text = i;
+                bedroomsSelect.appendChild(option);
+            }
+
+            // Always select 1 by default
+            bedroomsSelect.value = "1";
+        }
+
+        // Run once on page load
+        document.addEventListener("DOMContentLoaded", updateBedrooms);
+    </script>
+
+</body>
+
+</html>
